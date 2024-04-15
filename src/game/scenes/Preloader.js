@@ -1,5 +1,10 @@
 import { Scene } from 'phaser';
 
+export const IMAGES = {
+  LOGO: 'logo',
+  POKEBALL: 'pokeball',
+}
+
 export class Preloader extends Scene {
 
   constructor() {
@@ -25,8 +30,8 @@ export class Preloader extends Scene {
 
   preload() {
     this.load.setPath('assets');
-    this.load.image('logo', 'logo.png');
-    this.load.image('star', 'star.png');
+    this.load.image(IMAGES.LOGO, 'logo.png');
+    this.load.image(IMAGES.POKEBALL, 'pokeball.png');
   }
 
   create() {

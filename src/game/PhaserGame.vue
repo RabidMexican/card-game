@@ -1,17 +1,17 @@
 <script setup>
 import { onMounted, onUnmounted, ref } from 'vue';
-import { EventBus } from './EventBus';
+import { EventBus, EVENTS } from './EventBus';
 import StartGame from './main';
 
-// Save the current scene instance
 const scene = ref();
 const game = ref();
-const emit = defineEmits(['current-active-scene']);
+const container = "game-container";
+const emit = defineEmits([EVENTS.CURRENT_ACTIVE_SCENE]);
 
 onMounted(() => {
-  game.value = StartGame('game-container');
-  EventBus.on('current-scene-ready', (currentScene) => {
-    emit('current-active-scene', currentScene);
+  game.value = StartGame(container);
+  EventBus.on(EVENTS.CURRENT_SCENE_READY, (currentScene) => {
+    emit(EVENTS.CURRENT_ACTIVE_SCENE, currentScene);
     scene.value = currentScene;
   });
 });
@@ -27,5 +27,5 @@ defineExpose({ scene, game });
 </script>
 
 <template>
-  <div id="game-container"></div>
+  <div :id="container"></div>
 </template>

@@ -1,13 +1,19 @@
-import { EventBus } from '../EventBus';
+import { EventBus, EVENTS } from '../EventBus';
 import { Scene } from 'phaser';
+import { IMAGES } from './Preloader';
 
 export class MainMenu extends Scene {
   logoTween;
-
-  menuTextConfig = {
+  numberOfPokeballs = 10;
+  buttons = {};
+  colors = {
+    menuText: '#ffffff',
+    menuTextSelected: '#4287f5',
+    menuTextDisabled: '#858585',
+  }
+  menuTextStyle = {
     fontFamily: 'Arial Black',
     fontSize: 38,
-    color: '#ffffff',
     stroke: '#000000',
     strokeThickness: 8,
     align: 'center'
@@ -18,16 +24,71 @@ export class MainMenu extends Scene {
   }
 
   create () {
+    // add background
     this.add.image(512, 384, 'background');
     
-    this.logo = this.add.image(512, 300, 'logo').setDepth(100);
-    this.logo.scale = 0.4;
+    // add logo
+    this.logo = this.add.image(512, 300, 'logo')
+      .setScale(0.4)
+      .setDepth(100);
 
-    this.add.text(512, 512, 'Continue', this.menuTextConfig).setDepth(100).setOrigin(0.5);
-    this.add.text(512, 460, 'New Game', this.menuTextConfig).setDepth(100).setOrigin(0.5);
-    this.add.text(512, 564, 'Quit', this.menuTextConfig).setDepth(100).setOrigin(0.5);
+    // initialise buttons
+    this.buttons.newGame = this.add.text(512, 460, 'New Game', this.menuTextStyle)
+      .setOrigin(0.5)
+      .setDepth(100)
+      .setInteractive();
+    this.buttons.continue = this.add.text(512, 512, 'Continue', this.menuTextStyle)
+      .setOrigin(0.5)
+      .setDepth(100)
+      .setStyle({fill: this.colors.menuTextDisabled});
+    this.buttons.quit = this.add.text(512, 564, 'Quit', this.menuTextStyle)
+      .setOrigin(0.5)
+      .setDepth(100)
+      .setInteractive();
+
+    // add new game button events
+    this.buttons.newGame.on('pointerover', () => {
+      this.buttons.newGame.setStyle({fill: this.colors.menuTextSelected});
+    });
+    this.buttons.newGame.on('pointerout', () => {
+      this.buttons.newGame.setStyle({fill: this.colors.menuText});
+    });
+    this.buttons.newGame.on('pointerdown', () => {
+      this.scene.start('Game');
+    });
+
+    // add quit button events
+    this.buttons.quit.on('pointerover', () => {
+      this.buttons.quit.setStyle({fill: this.colors.menuTextSelected});
+    });
+    this.buttons.quit.on('pointerout', () => {
+      this.buttons.quit.setStyle({fill: this.colors.menuText});
+    });
+    this.buttons.quit.on('pointerdown', () => close());
+
+    // animated pokeball background
+    for (let step = 0; step < this.numberOfPokeballs; step++) {
+      
+      // get a random position
+      const x = Phaser.Math.Between(64, this.scale.width - 64);
+      const y = Phaser.Math.Between(64, this.scale.height - 64);
+
+      // add a pokeball with some random rotation
+      const pokeball = this.add.sprite(x, y, IMAGES.POKEBALL)
+        .setScale(0.1)
+        .setRotation(360 + Math.random() * 360)
+  
+      // fade the pokeball in and out
+      this.add.tween({
+        targets: pokeball,
+        duration: 2000 + Math.random() * 2000,
+        alpha: 0,
+        yoyo: true,
+        repeat: -1
+      });
+    }
     
-    EventBus.emit('current-scene-ready', this);
+    EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);
   }
 
   changeScene() {
