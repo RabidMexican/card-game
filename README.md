@@ -12,8 +12,6 @@ This template has been updated for:
 - [Vue 3.4.19](https://github.com/vuejs)
 - [Vite 5.1.4](https://github.com/vitejs/vite)
 
-![screenshot](screenshot.png)
-
 ## Requirements
 
 [Node.js](https://nodejs.org) is required to install dependencies and run scripts via `npm`.
