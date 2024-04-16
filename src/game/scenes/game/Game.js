@@ -1,6 +1,5 @@
 import Phaser from 'phaser';
 import CancerCard from './cards/CancerCard';
-import Card from './Card';
 
 import { EVENTS, EventBus } from '../../EventBus';
 import { COLORS, IMAGES } from '../../assets';

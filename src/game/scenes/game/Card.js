@@ -3,12 +3,12 @@ import { IMAGES } from '../../assets';
 
 
 export default class Card extends Phaser.GameObjects.Container {
-
   padding = 20;
 
   constructor({scene, x, y, name, description, interactive}) {
-    // init & config
     super(scene, x, y);
+
+    // config
     this.isSelected = false;
     this.scene = scene;
     this.startPosX = x;
@@ -41,6 +41,7 @@ export default class Card extends Phaser.GameObjects.Container {
       fontSize: 16,
       strokeThickness: 6,
     };
+
     this.descriptionStyle = {
       ...this.textStyle,
       fontSize: 12,
@@ -71,6 +72,7 @@ export default class Card extends Phaser.GameObjects.Container {
     if (interactive) {
       this.setInteractive({cursor: 'grab'});
       this.scene.input.setDraggable(this);
+
       // configure drag
       this.on('drag', (pointer, dragX, dragY) => {
         this.x = dragX;
@@ -88,6 +90,10 @@ export default class Card extends Phaser.GameObjects.Container {
       // un-raise card on mouse out
       this.on('pointerout', () => {
         this.y = this.startPosY;
+      });
+      this.scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+        this.x = dragX;
+        this.y = dragY;
       });
     }
     
