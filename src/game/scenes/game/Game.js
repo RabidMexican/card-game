@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
-import Card from './Card'
+import Card from './Card';
+
 import { EVENTS, EventBus } from '../../EventBus';
 import { COLORS, IMAGES } from '../../assets';
 
@@ -44,6 +45,7 @@ export class Game extends Phaser.Scene {
       .on('pointerover', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT_SELECTED})})
       .on('pointerout', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT})})
       .on('pointerdown', () => this.scene.start('MainMenu'));
+
 
     // build card and add it to the scene
     let card = new Card({
