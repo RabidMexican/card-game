@@ -27,6 +27,7 @@ export class Game extends Phaser.Scene {
     // add background image
     this.add.image(centerX, centerY, IMAGES.TABLE).setScale(1.1);
 
+    // build back button
     this.buttons.back = this.add.text(
       10, 10, '< BACK', 
       {
@@ -38,21 +39,24 @@ export class Game extends Phaser.Scene {
       }
     ).setOrigin(0, 0).setDepth(100).setInteractive({cursor: 'pointer', backgroundColor: 'red'});
 
+    // add back button actions
     this.buttons.back
       .on('pointerover', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT_SELECTED})})
       .on('pointerout', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT})})
       .on('pointerdown', () => this.scene.start('MainMenu'));
 
+    // build card and add it to the scene
     let card = new Card({
       scene: this,
       x: centerX,
       y: centerY,
       name: 'Cancer',
       description: 'Give your opponent cancer.',
+      interactive: true,
     });
-
     this.add.existing(card);
 
+    // tell the engine that the Scene is ready
     EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);
   }
 }

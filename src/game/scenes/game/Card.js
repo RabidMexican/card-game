@@ -17,7 +17,7 @@ export default class Card extends Phaser.GameObjects.Container {
 
   padding = 20;
 
-  constructor({scene, x, y, name, description}) {
+  constructor({scene, x, y, name, description, interactive}) {
     // init & config
 		super(scene, x, y);
     this.scene = scene;
@@ -65,7 +65,17 @@ export default class Card extends Phaser.GameObjects.Container {
     this.add(titleElement);
     this.add(descriptionElement);
     this.setSize(backgroundElement.displayWidth, backgroundElement.displayHeight);
-    this.setInteractive({cursor: 'grab'});
+
+    // add interactivity to scene
+    if (interactive) {
+      this.setInteractive({cursor: 'grab'});
+      this.scene.input.setDraggable(this);
+      this.scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+        this.x = dragX;
+        this.y = dragY;
+      });
+    }
+    
 	}
 
 }
