@@ -1,13 +1,6 @@
 import { Scene } from 'phaser';
+import { ICONS, IMAGES } from '../assets'
 
-export const IMAGES = {
-  LOGO: 'logo',
-  POKEBALL: 'pokeball',
-}
-
-export const ICONS = {
-  FULLSCREEN: 'fullscreen',
-}
 
 export class Preloader extends Scene {
 
@@ -33,9 +26,13 @@ export class Preloader extends Scene {
   }
 
   preload() {
+    // load images
     this.load.setPath('assets');
     this.load.image(IMAGES.LOGO, 'logo.png');
     this.load.image(IMAGES.POKEBALL, 'pokeball.png');
+    this.load.image(IMAGES.TABLE, 'table.jpg');
+
+    // load icons
     this.load.image(ICONS.FULLSCREEN, 'icons/fullscreen.png');
   }
 
