@@ -47,8 +47,8 @@ export class Game extends Phaser.Scene {
       scene: this,
       x: centerX,
       y: centerY,
-      name: 'My Card',
-      description: 'This is just a card, it doesn\'t do much... yet.',
+      name: 'Cancer',
+      description: 'Give your opponent cancer.',
     });
 
     this.add.existing(card);

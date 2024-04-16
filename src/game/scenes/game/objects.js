@@ -31,8 +31,8 @@ export class Card extends Phaser.GameObjects.Container {
     const { width, height } = this.scene.sys.game.canvas;
     console.log(width);
     console.log(backgroundElement.displayWidth)
-    this.xLeft = (width - backgroundElement.displayWidth) / 2;
-    this.yTop = (height - backgroundElement.displayHeight) / 2;
+    this.xLeft = 0 - (backgroundElement.displayWidth / 2);
+    this.yTop = 0 - (backgroundElement.displayHeight / 2);
 
     // calculate title position
     const titleXPos = this.xLeft + this.padding;
@@ -40,7 +40,7 @@ export class Card extends Phaser.GameObjects.Container {
 
     // calculate description position
     const descriptionXPos = this.xLeft + this.padding;
-    const descriptionYPos = this.yTop + this.displayHeight * 0.4 + this.padding;
+    const descriptionYPos = this.yTop * 0.4 + this.padding;
 
     // build description style 
     this.descriptionStyle = {
@@ -48,7 +48,7 @@ export class Card extends Phaser.GameObjects.Container {
       fontSize: 12,
       strokeThickness: 3,
       wordWrap: {
-        width: backgroundElement.width - (this.padding * 2),
+        width: backgroundElement.displayWidth - (this.padding * 2),
         useAdvancedWrap: true
       }
     }
