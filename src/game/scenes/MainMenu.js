@@ -36,7 +36,7 @@ export class MainMenu extends Scene {
     this.buttons.newGame = this.add.text(512, 460, 'New Game', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
-      .setInteractive();
+      .setInteractive({cursor: 'pointer'});
     this.buttons.continue = this.add.text(512, 512, 'Continue', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
@@ -44,7 +44,7 @@ export class MainMenu extends Scene {
     this.buttons.quit = this.add.text(512, 564, 'Quit', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
-      .setInteractive();
+      .setInteractive({cursor: 'pointer'});
 
     // add new game button events
     this.buttons.newGame.on('pointerover', () => {
