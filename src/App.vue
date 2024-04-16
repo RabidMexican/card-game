@@ -3,5 +3,5 @@ import PhaserGame from './game/PhaserGame.vue';
 </script>
 
 <template>
-  <PhaserGame ref="phaserRef" @current-active-scene="currentScene" />
+  <PhaserGame ref="phaserRef" />
 </template>

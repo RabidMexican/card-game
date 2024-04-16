@@ -1,16 +1,23 @@
+import Phaser from 'phaser';
+
 import { EventBus, EVENTS } from '../EventBus';
-import { Scene } from 'phaser';
 import { IMAGES } from './Preloader';
 
-export class MainMenu extends Scene {
+export class MainMenu extends Phaser.Scene {
   logoTween;
   numberOfPokeballs = 10;
+
+  width = 0;
+  height = 0;
+
   buttons = {};
+
   colors = {
     menuText: '#ffffff',
     menuTextSelected: '#6ea6ff',
     menuTextDisabled: '#858585',
   }
+
   menuTextStyle = {
     fontFamily: 'Arial Black',
     fontSize: 38,
@@ -24,6 +31,10 @@ export class MainMenu extends Scene {
   }
 
   create () {
+    // get width and height
+    this.width = this.sys.game.canvas.width;
+    this.height = this.sys.game.canvas.height;
+
     // add background
     this.add.image(512, 384, 'background');
     
@@ -66,9 +77,13 @@ export class MainMenu extends Scene {
     });
     this.buttons.quit.on('pointerdown', () => close());
 
-    // animated pokeball background
+    this.addPokeballs();
+    
+    EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);
+  }
+
+  addPokeballs() {
     for (let step = 0; step < this.numberOfPokeballs; step++) {
-      
       // get a random position
       const x = Phaser.Math.Between(64, this.scale.width - 64);
       const y = Phaser.Math.Between(64, this.scale.height - 64);
@@ -77,7 +92,7 @@ export class MainMenu extends Scene {
       const pokeball = this.add.sprite(x, y, IMAGES.POKEBALL)
         .setScale(0.1)
         .setRotation(360 + Math.random() * 360)
-  
+
       // fade the pokeball in and out
       this.add.tween({
         targets: pokeball,
@@ -87,8 +102,6 @@ export class MainMenu extends Scene {
         repeat: -1
       });
     }
-    
-    EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);
   }
 
   changeScene() {
