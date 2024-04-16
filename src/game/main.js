@@ -1,16 +1,20 @@
 import Phaser from 'phaser';
 
 import { Boot } from './scenes/Boot';
-import { Game } from './scenes/Game';
+import { Game } from './scenes/game/Game';
 import { MainMenu } from './scenes/MainMenu';
 import { Preloader } from './scenes/Preloader';
 
 const config = {
   type: Phaser.AUTO,
-  width: 1024,
-  height: 768,
-  parent: 'game-container',
-  backgroundColor: '#028af8',
+  scale: {
+    mode: Phaser.Scale.FIT,
+    parent: 'game-container',
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: 800,
+    height: 600,
+  },
+  backgroundColor: 0x028af8,
   scene: [
     Boot,
     Preloader,
