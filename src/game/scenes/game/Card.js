@@ -9,6 +9,7 @@ export default class Card extends Phaser.GameObjects.Container {
   constructor({scene, x, y, name, description, interactive}) {
     // init & config
     super(scene, x, y);
+    this.isSelected = false;
     this.scene = scene;
     this.startPosX = x;
     this.startPosY = y
@@ -70,9 +71,23 @@ export default class Card extends Phaser.GameObjects.Container {
     if (interactive) {
       this.setInteractive({cursor: 'grab'});
       this.scene.input.setDraggable(this);
+      // configure drag
       this.on('drag', (pointer, dragX, dragY) => {
         this.x = dragX;
         this.y = dragY;
+      });
+      // configure drop
+      this.on('dragend', () => {
+        this.x = this.startPosX;
+        this.y = this.startPosY;
+      });
+      // raise card on mouse over
+      this.on('pointerover', () => {
+        this.y = this.startPosY - 50;
+      });
+      // un-raise card on mouse out
+      this.on('pointerout', () => {
+        this.y = this.startPosY;
       });
     }
     

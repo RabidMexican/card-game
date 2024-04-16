@@ -54,11 +54,8 @@ export class Game extends Phaser.Scene {
       .on('pointerdown', () => this.scene.start('MainMenu'));
 
     // calculate starting positions for hand management
-    console.log("handmarginRatio" + this.options.marginSizeRatio);
     const marginSize = this.width * this.options.marginSizeRatio;
-    console.log("handmarginSize " + marginSize);
     const handWidth = this.width - (2 * marginSize);
-    console.log("handwidth: " + handWidth)
     const handCardSpacing = handWidth / this.options.startingHandSize;
     const handStartPosition = marginSize * 2;
     
@@ -70,7 +67,7 @@ export class Game extends Phaser.Scene {
       const card = new CancerCard({
         scene: this,
         x: currentPos,
-        y: this.height - 300,
+        y: this.height - 100,
         interactive: true,
       });
 
