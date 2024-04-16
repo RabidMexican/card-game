@@ -8,7 +8,7 @@ export class MainMenu extends Scene {
   buttons = {};
   colors = {
     menuText: '#ffffff',
-    menuTextSelected: '#4287f5',
+    menuTextSelected: '#6ea6ff',
     menuTextDisabled: '#858585',
   }
   menuTextStyle = {
