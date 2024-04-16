@@ -1,7 +1,7 @@
 import Phaser from 'phaser';
 
 import { EventBus, EVENTS } from '../EventBus';
-import { IMAGES } from './Preloader';
+import { IMAGES, ICONS } from './Preloader';
 
 export class MainMenu extends Phaser.Scene {
   logoTween;
@@ -34,28 +34,45 @@ export class MainMenu extends Phaser.Scene {
     // get width and height
     this.width = this.sys.game.canvas.width;
     this.height = this.sys.game.canvas.height;
+    const centerX = this.width / 2;
+    const centerY = this.height / 2;
 
     // add background
     this.add.image(512, 384, 'background');
     
     // add logo
-    this.logo = this.add.image(512, 300, 'logo')
+    this.logo = this.add.image(centerX, 200, 'logo')
       .setScale(0.4)
       .setDepth(100);
 
     // initialise buttons
-    this.buttons.newGame = this.add.text(512, 460, 'New Game', this.menuTextStyle)
+    this.buttons.newGame = this.add.text(centerX, centerY + 60, 'New Game', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
       .setInteractive({cursor: 'pointer'});
-    this.buttons.continue = this.add.text(512, 512, 'Continue', this.menuTextStyle)
+    this.buttons.continue = this.add.text(centerX, centerY + 110, 'Continue', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
       .setStyle({fill: this.colors.menuTextDisabled});
-    this.buttons.quit = this.add.text(512, 564, 'Quit', this.menuTextStyle)
+    this.buttons.quit = this.add.text(centerX, centerY + 160, 'Quit', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
       .setInteractive({cursor: 'pointer'});
+    this.buttons.fullScreen = this.add.image(this.width - 16, this.height - 16, ICONS.FULLSCREEN, 0)
+      .setScale(2.0)
+      .setOrigin(1, 1)
+      .setInteractive({cursor: 'pointer'});
+
+
+    this.buttons.fullScreen.on('pointerup', () => {
+      if (this.scale.isFullscreen) {
+        this.buttons.fullScreen.setFrame(0);
+        this.scale.stopFullscreen();
+      } else {
+        this.buttons.fullScreen.setFrame(1);
+        this.scale.startFullscreen();
+      }
+    }, this);
 
     // add new game button events
     this.buttons.newGame.on('pointerover', () => {

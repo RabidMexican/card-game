@@ -5,6 +5,10 @@ export const IMAGES = {
   POKEBALL: 'pokeball',
 }
 
+export const ICONS = {
+  FULLSCREEN: 'fullscreen',
+}
+
 export class Preloader extends Scene {
 
   constructor() {
@@ -32,6 +36,7 @@ export class Preloader extends Scene {
     this.load.setPath('assets');
     this.load.image(IMAGES.LOGO, 'logo.png');
     this.load.image(IMAGES.POKEBALL, 'pokeball.png');
+    this.load.image(ICONS.FULLSCREEN, 'icons/fullscreen.png');
   }
 
   create() {
