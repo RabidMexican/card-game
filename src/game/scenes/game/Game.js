@@ -1,14 +1,22 @@
 import Phaser from 'phaser';
 import CancerCard from './cards/CancerCard';
+import Card from './Card';
 
 import { EVENTS, EventBus } from '../../EventBus';
 import { COLORS, IMAGES } from '../../assets';
 
 
 export class Game extends Phaser.Scene {
-  buttons = {};
   width;
   height;
+
+  buttons = {};
+  handArray = [];
+
+  options = {
+    startingHandSize: 5,
+    marginSizeRatio: 0.10,
+  };
 
   constructor() {
     super('Game');
@@ -45,15 +53,32 @@ export class Game extends Phaser.Scene {
       .on('pointerout', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT})})
       .on('pointerdown', () => this.scene.start('MainMenu'));
 
+    // calculate starting positions for hand management
+    console.log("handmarginRatio" + this.options.marginSizeRatio);
+    const marginSize = this.width * this.options.marginSizeRatio;
+    console.log("handmarginSize " + marginSize);
+    const handWidth = this.width - (2 * marginSize);
+    console.log("handwidth: " + handWidth)
+    const handCardSpacing = handWidth / this.options.startingHandSize;
+    const handStartPosition = marginSize * 2;
+    
+    // build starting hand
+    for (let i = 0; i < this.options.startingHandSize; i++) {
 
-    // build a card and add it to the scene
-    let card = new CancerCard({
-      scene: this,
-      x: centerX,
-      y: centerY,
-      interactive: true,
-    });
-    this.add.existing(card);
+      // calculate position and build a card
+      const currentPos = handStartPosition + (i * handCardSpacing);
+      const card = new CancerCard({
+        scene: this,
+        x: currentPos,
+        y: this.height - 300,
+        interactive: true,
+      });
+
+      // configure card  
+      card.setDepth(this.options.startingHandSize - i);
+      this.handArray.push(card);
+      this.add.existing(this.handArray[i]);
+    }
 
     // tell the engine that the Scene is ready
     EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);

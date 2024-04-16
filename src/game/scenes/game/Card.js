@@ -4,23 +4,14 @@ import { IMAGES } from '../../assets';
 
 export default class Card extends Phaser.GameObjects.Container {
 
-  textStyle = {
-    fontFamily: 'Arial Black',
-    stroke: '#000000',
-  };
-
-  titleStyle = {
-    ...this.textStyle,
-    fontSize: 16,
-    strokeThickness: 6,
-  }
-
   padding = 20;
 
   constructor({scene, x, y, name, description, interactive}) {
     // init & config
-		super(scene, x, y);
+    super(scene, x, y);
     this.scene = scene;
+    this.startPosX = x;
+    this.startPosY = y
     this.x = x;
     this.y = y;
 
@@ -39,7 +30,16 @@ export default class Card extends Phaser.GameObjects.Container {
     const descriptionXPos = this.xLeft + this.padding;
     const descriptionYPos = this.yTop * 0.4 + this.padding;
 
-    // build description style 
+    // build styles
+    this.textStyle = {
+      fontFamily: 'Arial Black',
+      stroke: '#000000',
+    };
+    this.titleStyle = {
+      ...this.textStyle,
+      fontSize: 16,
+      strokeThickness: 6,
+    };
     this.descriptionStyle = {
       ...this.textStyle,
       fontSize: 12,
@@ -48,7 +48,7 @@ export default class Card extends Phaser.GameObjects.Container {
         width: backgroundElement.displayWidth - (this.padding * 2),
         useAdvancedWrap: true
       }
-    }
+    };
 
     // add card title to the scene
     const titleElement = scene.add.text(titleXPos, titleYPos, name, this.titleStyle)
@@ -70,7 +70,7 @@ export default class Card extends Phaser.GameObjects.Container {
     if (interactive) {
       this.setInteractive({cursor: 'grab'});
       this.scene.input.setDraggable(this);
-      this.scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
+      this.on('drag', (pointer, dragX, dragY) => {
         this.x = dragX;
         this.y = dragY;
       });

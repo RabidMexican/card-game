@@ -6,6 +6,8 @@ export const IMAGES = {
   BACKGROUND: 'background',
   CARD: 'card',
   LOGO: 'logo',
+  LOGO_SUBTITLE: 'logo_subtitle',
+  PILL: 'pill',
   POKEBALL: 'pokeball',
   TABLE: 'table',
 }
