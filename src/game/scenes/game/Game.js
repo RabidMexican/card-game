@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { EVENTS, EventBus } from '../../EventBus';
+import { COLORS, IMAGES } from '../../assets';
 
 
 export class Game extends Phaser.Scene {
@@ -23,12 +24,23 @@ export class Game extends Phaser.Scene {
     this.cameras.main.setBackgroundColor(0x00ff00);
 
     // add background image
-    this.add.image(512, 384, 'background').setAlpha(0.5);
+    this.add.image(centerX, centerY, IMAGES.TABLE).setScale(1.1);
 
-    this.add.text(centerX, centerY, 'INSERT ACTUAL GAME HERE', {
-      fontFamily: 'Arial Black', fontSize: 24, color: '#ffffff',
-      stroke: '#000000', strokeThickness: 8,
-    }).setOrigin(0.5).setDepth(100);
+    this.buttons.back = this.add.text(
+      10, 10, '< BACK', 
+      {
+        fontFamily: 'Arial Black',
+        fontSize: 24,
+        color: COLORS.MENU_TEXT,
+        stroke: '#000000',
+        strokeThickness: 8,
+      }
+    ).setOrigin(0, 0).setDepth(100).setInteractive({cursor: 'pointer', backgroundColor: 'red'});
+
+    this.buttons.back
+      .on('pointerover', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT_SELECTED})})
+      .on('pointerout', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT})})
+      .on('pointerdown', () => this.scene.start('MainMenu'));
 
     EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);
   }

@@ -1,7 +1,8 @@
 import Phaser from 'phaser';
 
 import { EventBus, EVENTS } from '../EventBus';
-import { IMAGES, ICONS } from './Preloader';
+import { COLORS, IMAGES, ICONS } from '../assets';
+
 
 export class MainMenu extends Phaser.Scene {
   logoTween;
@@ -11,12 +12,6 @@ export class MainMenu extends Phaser.Scene {
   height = 0;
 
   buttons = {};
-
-  colors = {
-    menuText: '#ffffff',
-    menuTextSelected: '#6ea6ff',
-    menuTextDisabled: '#858585',
-  }
 
   menuTextStyle = {
     fontFamily: 'Arial Black',
@@ -53,11 +48,11 @@ export class MainMenu extends Phaser.Scene {
     this.buttons.continue = this.add.text(centerX, centerY + 110, 'Continue', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
-      .setStyle({fill: this.colors.menuTextDisabled});
+      .setStyle({fill: COLORS.MENU_TEXT_DISABLED});
     this.buttons.quit = this.add.text(centerX, centerY + 160, 'Quit', this.menuTextStyle)
       .setOrigin(0.5)
       .setDepth(100)
-      .setInteractive({cursor: 'pointer'});
+      .setInteractive({cursor: 'pointer', fill: COLORS.MENU_TEXT_SELECTED});
     this.buttons.fullScreen = this.add.image(this.width - 16, this.height - 16, ICONS.FULLSCREEN, 0)
       .setScale(2.0)
       .setOrigin(1, 1)
@@ -75,24 +70,16 @@ export class MainMenu extends Phaser.Scene {
     }, this);
 
     // add new game button events
-    this.buttons.newGame.on('pointerover', () => {
-      this.buttons.newGame.setStyle({fill: this.colors.menuTextSelected});
-    });
-    this.buttons.newGame.on('pointerout', () => {
-      this.buttons.newGame.setStyle({fill: this.colors.menuText});
-    });
-    this.buttons.newGame.on('pointerdown', () => {
-      this.scene.start('Game');
-    });
+    this.buttons.newGame
+      .on('pointerover', () => {this.buttons.newGame.setStyle({fill: COLORS.MENU_TEXT_SELECTED})})
+      .on('pointerout', () => {this.buttons.newGame.setStyle({fill: COLORS.MENU_TEXT})})
+      .on('pointerdown', () => {this.scene.start('Game')});
 
     // add quit button events
-    this.buttons.quit.on('pointerover', () => {
-      this.buttons.quit.setStyle({fill: this.colors.menuTextSelected});
-    });
-    this.buttons.quit.on('pointerout', () => {
-      this.buttons.quit.setStyle({fill: this.colors.menuText});
-    });
-    this.buttons.quit.on('pointerdown', () => close());
+    this.buttons.quit
+      .on('pointerover', () => {this.buttons.quit.setStyle({fill: COLORS.MENU_TEXT_SELECTED})})
+      .on('pointerout', () => {this.buttons.quit.setStyle({fill: COLORS.MENU_TEXT})})
+      .on('pointerdown', () => close());
 
     this.addPokeballs();
     
