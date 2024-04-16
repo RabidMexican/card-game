@@ -91,10 +91,6 @@ export default class Card extends Phaser.GameObjects.Container {
       this.on('pointerout', () => {
         this.y = this.startPosY;
       });
-      this.scene.input.on('drag', (pointer, gameObject, dragX, dragY) => {
-        this.x = dragX;
-        this.y = dragY;
-      });
     }
     
 	}
