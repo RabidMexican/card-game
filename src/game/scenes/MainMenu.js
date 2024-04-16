@@ -33,7 +33,7 @@ export class MainMenu extends Phaser.Scene {
     const centerY = this.height / 2;
 
     // add background
-    this.add.image(512, 384, 'background');
+    this.add.image(512, 384, IMAGES.BACKGROUND);
     
     // add logo
     this.logo = this.add.image(centerX, 200, 'logo')

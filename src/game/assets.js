@@ -4,6 +4,7 @@ export const ICONS = {
 
 export const IMAGES = {
   BACKGROUND: 'background',
+  CARD: 'card',
   LOGO: 'logo',
   POKEBALL: 'pokeball',
   TABLE: 'table',
