@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import { Card } from './objects'
+import Card from './Card'
 import { EVENTS, EventBus } from '../../EventBus';
 import { COLORS, IMAGES } from '../../assets';
 
