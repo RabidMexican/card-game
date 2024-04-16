@@ -30,6 +30,8 @@ export class Preloader extends Scene {
     this.load.setPath('assets');
     this.load.image(IMAGES.CARD, 'card.png')
     this.load.image(IMAGES.LOGO, 'logo.png');
+    this.load.image(IMAGES.LOGO_SUBTITLE, 'logo_subtitle.png');
+    this.load.image(IMAGES.PILL, 'pill.png');
     this.load.image(IMAGES.POKEBALL, 'pokeball.png');
     this.load.image(IMAGES.TABLE, 'table.jpg');
 

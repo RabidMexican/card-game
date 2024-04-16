@@ -5,13 +5,12 @@ import { COLORS, IMAGES, ICONS } from '../assets';
 
 
 export class MainMenu extends Phaser.Scene {
-  logoTween;
-  numberOfPokeballs = 10;
-
   width = 0;
   height = 0;
-
   buttons = {};
+
+  backgroundParticleTotal = 20;
+  backgroundParticles = [];
 
   menuTextStyle = {
     fontFamily: 'Arial Black',
@@ -36,8 +35,10 @@ export class MainMenu extends Phaser.Scene {
     this.add.image(512, 384, IMAGES.BACKGROUND);
     
     // add logo
-    this.logo = this.add.image(centerX, 200, 'logo')
-      .setScale(0.4)
+    this.logo = this.add.image(centerX, 200, IMAGES.LOGO)
+      .setDepth(100);
+    this.logoSubtitle = this.add.image(centerX, 300, IMAGES.LOGO_SUBTITLE)
+      .setScale(0.3)
       .setDepth(100);
 
     // initialise buttons
@@ -57,7 +58,6 @@ export class MainMenu extends Phaser.Scene {
       .setScale(2.0)
       .setOrigin(1, 1)
       .setInteractive({cursor: 'pointer'});
-
 
     this.buttons.fullScreen.on('pointerup', () => {
       if (this.scale.isFullscreen) {
@@ -81,30 +81,40 @@ export class MainMenu extends Phaser.Scene {
       .on('pointerout', () => {this.buttons.quit.setStyle({fill: COLORS.MENU_TEXT})})
       .on('pointerdown', () => close());
 
-    this.addPokeballs();
+    this.addBackgroundParticles();
     
     EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);
   }
 
-  addPokeballs() {
-    for (let step = 0; step < this.numberOfPokeballs; step++) {
+  update () {
+    // update all particles rotations & positions
+    for (const particle of this.backgroundParticles) {
+      particle.rotation += 0.005;
+      particle.y += 1;
+      // if a particle falls off the bottom, send it back to the top
+      if (particle.y > this.height) {
+        particle.y = Math.random() * (0 - (this.height * 0.1));
+      }
+    }
+  }
+
+  addBackgroundParticles() {
+    for (let step = 0; step < this.backgroundParticleTotal; step++) {
       // get a random position
       const x = Phaser.Math.Between(64, this.scale.width - 64);
       const y = Phaser.Math.Between(64, this.scale.height - 64);
 
       // add a pokeball with some random rotation
-      const pokeball = this.add.sprite(x, y, IMAGES.POKEBALL)
-        .setScale(0.1)
+      const particle = this.add.sprite(x, y, IMAGES.PILL)
+        .setScale(0.2)
         .setRotation(360 + Math.random() * 360)
 
-      // fade the pokeball in and out
-      this.add.tween({
-        targets: pokeball,
-        duration: 2000 + Math.random() * 2000,
-        alpha: 0,
-        yoyo: true,
-        repeat: -1
-      });
+      // give the particles random colors
+      const color = new Phaser.Display.Color();
+      color.random(50)
+      particle.setTint(color.color);
+
+      this.backgroundParticles.push(particle);
     }
   }
 
