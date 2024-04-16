@@ -28,6 +28,7 @@ export class Preloader extends Scene {
   preload() {
     // load images
     this.load.setPath('assets');
+    this.load.image(IMAGES.CARD, 'card.png')
     this.load.image(IMAGES.LOGO, 'logo.png');
     this.load.image(IMAGES.POKEBALL, 'pokeball.png');
     this.load.image(IMAGES.TABLE, 'table.jpg');
