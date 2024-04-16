@@ -1,5 +1,5 @@
 import Phaser from 'phaser';
-import Card from './Card';
+import CancerCard from './cards/CancerCard';
 
 import { EVENTS, EventBus } from '../../EventBus';
 import { COLORS, IMAGES } from '../../assets';
@@ -7,7 +7,6 @@ import { COLORS, IMAGES } from '../../assets';
 
 export class Game extends Phaser.Scene {
   buttons = {};
-
   width;
   height;
 
@@ -47,13 +46,11 @@ export class Game extends Phaser.Scene {
       .on('pointerdown', () => this.scene.start('MainMenu'));
 
 
-    // build card and add it to the scene
-    let card = new Card({
+    // build a card and add it to the scene
+    let card = new CancerCard({
       scene: this,
       x: centerX,
       y: centerY,
-      name: 'Cancer',
-      description: 'Give your opponent cancer.',
       interactive: true,
     });
     this.add.existing(card);
