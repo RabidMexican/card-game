@@ -3,70 +3,41 @@ import { IMAGES } from '../../assets';
 
 
 export default class Card extends Phaser.GameObjects.Container {
+  width = 150;
+  height = 200;
   padding = 20;
 
-  constructor({scene, x, y, name, description, interactive}) {
+  constructor({scene, x, y, name, description, interactive, actions}) {
     super(scene, x, y);
 
     // config
     this.isSelected = false;
+    this.name = name
+    this.description = description
     this.scene = scene;
+    this.actions = actions;
+
+    // positions
     this.startPosX = x;
     this.startPosY = y
     this.x = x;
     this.y = y;
 
-    // add card background
-    const backgroundElement = scene.add.image(0, 0, IMAGES.CARD).setOrigin(0.5, 0.5).setScale(0.2);
-
     // calculate card edges
-    this.xLeft = 0 - (backgroundElement.displayWidth / 2);
-    this.yTop = 0 - (backgroundElement.displayHeight / 2);
+    this.xLeft = -(this.width / 2);
+    this.yTop = -(this.height / 2);
 
-    // calculate title position
-    const titleXPos = this.xLeft + this.padding;
-    const titleYPos = this.yTop + this.padding;
-
-    // calculate description position
-    const descriptionXPos = this.xLeft + this.padding;
-    const descriptionYPos = this.yTop * 0.4 + this.padding;
-
-    // build styles
-    this.textStyle = {
-      fontFamily: 'Arial Black',
-      stroke: '#000000',
-    };
-    this.titleStyle = {
-      ...this.textStyle,
-      fontSize: 16,
-      strokeThickness: 6,
-    };
-
-    this.descriptionStyle = {
-      ...this.textStyle,
-      fontSize: 12,
-      strokeThickness: 3,
-      wordWrap: {
-        width: backgroundElement.displayWidth - (this.padding * 2),
-        useAdvancedWrap: true
-      }
-    };
-
-    // add card title to the scene
-    const titleElement = scene.add.text(titleXPos, titleYPos, name, this.titleStyle)
-      .setOrigin(0, 0)
-      .setDepth(100);
-
-    // add description to the scene
-    const descriptionElement = scene.add.text(descriptionXPos, descriptionYPos, description, this.descriptionStyle)
-      .setOrigin(0, 0)
-      .setDepth(100);
+    // build elements
+    this.#buildStyles();
+    this.backgroundElement = this.#buildBackground();
+    this.titleElement = this.#buildTitle();
+    this.descriptionElement = this.#buildDescription();
 
     // add elements to the container
-    this.add(backgroundElement);
-    this.add(titleElement);
-    this.add(descriptionElement);
-    this.setSize(backgroundElement.displayWidth, backgroundElement.displayHeight);
+    this.add(this.backgroundElement);
+    this.add(this.titleElement);
+    this.add(this.descriptionElement);
+    this.setSize(this.width, this.height);
 
     // add interactivity to scene
     if (interactive) {
@@ -94,5 +65,57 @@ export default class Card extends Phaser.GameObjects.Container {
     }
     
 	}
+
+  #buildStyles() {
+    this.textStyle = {
+      fontFamily: 'Arial Black',
+      stroke: '#000000',
+    };
+    this.titleStyle = {
+      ...this.textStyle,
+      fontSize: 16,
+      strokeThickness: 6,
+    };
+    this.descriptionStyle = {
+      ...this.textStyle,
+      fontSize: 12,
+      strokeThickness: 3,
+      wordWrap: {
+        width: this.width - (this.padding * 2),
+        useAdvancedWrap: true
+      }
+    };
+  }
+
+  #buildBackground() {
+    // add card background
+    const image = this.scene.add.image(0, 0, IMAGES.CARD)
+      .setOrigin(0.5, 0.5);
+    image.displayHeight = this.height;
+    image.displayWidth = this.width;
+    return image;
+  }
+
+  #buildTitle() {
+    // calculate title position
+    const titleXPos = this.xLeft + this.padding;
+    const titleYPos = this.yTop + this.padding;
+    // add card title to the scene
+    return this.scene.add.text(titleXPos, titleYPos, this.name, this.titleStyle)
+      .setOrigin(0, 0)
+      .setDepth(100);
+  }
+
+  #buildDescription() {
+    // calculate description position
+    const descriptionXPos = this.xLeft + this.padding;
+    const descriptionYPos = this.yTop * 0.4 + this.padding;
+    // add description to the scene
+    return this.scene.add.text(descriptionXPos, descriptionYPos, this.description, this.descriptionStyle)
+      .setOrigin(0, 0)
+      .setDepth(100);
+  }
+
+
 
 }
