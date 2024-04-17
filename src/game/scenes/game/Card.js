@@ -5,9 +5,9 @@ import { IMAGES } from '../../assets';
 export default class Card extends Phaser.GameObjects.Container {
   width = 150;
   height = 200;
-  padding = 20;
+  padding = 10;
 
-  constructor({scene, x, y, name, description, interactive, actions}) {
+  constructor({scene, x, y, depth, name, description, interactive, actions}) {
     super(scene, x, y);
 
     // config
@@ -19,9 +19,11 @@ export default class Card extends Phaser.GameObjects.Container {
 
     // positions
     this.startPosX = x;
-    this.startPosY = y
+    this.startPosY = y;
+    this.startDepth = depth;
     this.x = x;
     this.y = y;
+    this.depth = depth;
 
     // calculate card edges
     this.xLeft = -(this.width / 2);
@@ -44,24 +46,11 @@ export default class Card extends Phaser.GameObjects.Container {
       this.setInteractive({cursor: 'grab'});
       this.scene.input.setDraggable(this);
 
-      // configure drag
-      this.on('drag', (pointer, dragX, dragY) => {
-        this.x = dragX;
-        this.y = dragY;
-      });
-      // configure drop
-      this.on('dragend', () => {
-        this.x = this.startPosX;
-        this.y = this.startPosY;
-      });
-      // raise card on mouse over
-      this.on('pointerover', () => {
-        this.y = this.startPosY - 50;
-      });
-      // un-raise card on mouse out
-      this.on('pointerout', () => {
-        this.y = this.startPosY;
-      });
+      // configure interactions
+      this.on('drag', (pointer, dragX, dragY) => this.onDrag(dragX, dragY));
+      this.on('dragend', () => this.onDragEnd());
+      this.on('pointerover', () => this.onMouseOver());
+      this.on('pointerout', () => this.onMouseOut());
     }
     
 	}
@@ -87,8 +76,27 @@ export default class Card extends Phaser.GameObjects.Container {
     };
   }
 
+  onDrag(dragX, dragY) {
+    this.x = dragX;
+    this.y = dragY;
+  }
+
+  onDragEnd() {
+    this.x = this.startPosX;
+    this.y = this.startPosY;
+  }
+
+  onMouseOver() {
+    this.setDepth(200);
+    this.y = this.startPosY - 30;
+  }
+
+  onMouseOut() {
+    this.setDepth(this.startDepth);
+    this.y = this.startPosY;
+  }
+
   #buildBackground() {
-    // add card background
     const image = this.scene.add.image(0, 0, IMAGES.CARD)
       .setOrigin(0.5, 0.5);
     image.displayHeight = this.height;

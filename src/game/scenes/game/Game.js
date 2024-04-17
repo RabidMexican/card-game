@@ -13,7 +13,7 @@ export class Game extends Phaser.Scene {
   handArray = [];
 
   options = {
-    startingHandSize: 5,
+    startingHandSize: 10,
     marginSizeRatio: 0.10,
   };
 
@@ -36,7 +36,7 @@ export class Game extends Phaser.Scene {
 
     // calculate starting positions for hand management
     const marginSize = this.width * this.options.marginSizeRatio;
-    const handWidth = this.width - (2 * marginSize);
+    const handWidth = this.width - (2 * marginSize) - 75;
     const handCardSpacing = handWidth / this.options.startingHandSize;
     const handStartPosition = marginSize * 2;
     
@@ -49,11 +49,11 @@ export class Game extends Phaser.Scene {
         scene: this,
         x: currentPos,
         y: this.height - 100,
+        depth: 100 + this.options.startingHandSize - (i + 1),
         interactive: true,
       });
 
-      // configure card  
-      card.setDepth(this.options.startingHandSize - i);
+      // configure card
       this.handArray.push(card);
       this.add.existing(this.handArray[i]);
     }
