@@ -34,24 +34,6 @@ export class Game extends Phaser.Scene {
     // add background image
     this.add.image(centerX, centerY, IMAGES.TABLE).setScale(1.1);
 
-    // build back button
-    this.buttons.back = this.add.text(
-      10, 10, '< BACK', 
-      {
-        fontFamily: 'Arial Black',
-        fontSize: 24,
-        color: COLORS.MENU_TEXT,
-        stroke: '#000000',
-        strokeThickness: 8,
-      }
-    ).setOrigin(0, 0).setDepth(100).setInteractive({cursor: 'pointer', backgroundColor: 'red'});
-
-    // add back button actions
-    this.buttons.back
-      .on('pointerover', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT_SELECTED})})
-      .on('pointerout', () => {this.buttons.back.setStyle({fill: COLORS.MENU_TEXT})})
-      .on('pointerdown', () => this.scene.start('MainMenu'));
-
     // calculate starting positions for hand management
     const marginSize = this.width * this.options.marginSizeRatio;
     const handWidth = this.width - (2 * marginSize);
@@ -79,4 +61,5 @@ export class Game extends Phaser.Scene {
     // tell the engine that the Scene is ready
     EventBus.emit(EVENTS.CURRENT_SCENE_READY, this);
   }
+
 }
