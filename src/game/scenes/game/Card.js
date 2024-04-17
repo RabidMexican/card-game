@@ -7,7 +7,14 @@ export default class Card extends Phaser.GameObjects.Container {
   height = 200;
   padding = 10;
 
-  constructor({scene, x, y, depth, name, description, interactive, actions}) {
+  constructor({
+    scene, x, y,
+    depth,
+    name,
+    description,
+    interactive,
+    actions,
+  }) {
     super(scene, x, y);
 
     // config
@@ -87,7 +94,7 @@ export default class Card extends Phaser.GameObjects.Container {
   }
 
   onMouseOver() {
-    this.setDepth(200);
+    this.setDepth(200); 
     this.y = this.startPosY - 30;
   }
 

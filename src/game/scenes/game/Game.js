@@ -1,8 +1,8 @@
 import Phaser from 'phaser';
-import CancerCard from './cards/CancerCard';
+import CardLibrary from './CardLibrary';
 
 import { EVENTS, EventBus } from '../../EventBus';
-import { COLORS, IMAGES } from '../../assets';
+import { IMAGES } from '../../assets';
 
 
 export class Game extends Phaser.Scene {
@@ -28,6 +28,9 @@ export class Game extends Phaser.Scene {
     const centerX = this.width / 2;
     const centerY = this.height / 2;
 
+    // build the Card Library
+    this.cardLibrary = new CardLibrary();
+
     // add background color
     this.cameras.main.setBackgroundColor(0x00ff00);
 
@@ -45,7 +48,10 @@ export class Game extends Phaser.Scene {
 
       // calculate position and build a card
       const currentPos = handStartPosition + (i * handCardSpacing);
-      const card = new CancerCard({
+      const RandomCard = this.cardLibrary.randomCard();
+
+      // generate a new random card
+      const card = new RandomCard({
         scene: this,
         x: currentPos,
         y: this.height - 100,

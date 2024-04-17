@@ -2,17 +2,14 @@ import Card from '../Card'
 
 
 export default class InfantryCard extends Card {
-  
-  name = 'Infantry'
-  descriptionStyle = 'Normal infantry.'
-
-  constructor({scene, x, y, interactive}) {
+  constructor({scene, x, y, depth, interactive}) {
     super({
       scene: scene,
       x: x,
       y: y,
-      name: 'Cancer',
-      description: 'Give your opponent cancer.',
+      depth: depth,
+      name: 'Infantry',
+      description: 'Normal infantry.',
       interactive: interactive,
     });
   }
